@@ -1,0 +1,409 @@
+@import 'common';
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-width: 320px;
+    max-width: 750px;
+    width: 10rem;
+    background-color: #f5f5fa;
+    margin: 0 auto;
+}
+
+// 对2d的function-button实现鼠标经过时向用户提示的效果
+.function-button-2d {
+    padding: .0667rem;
+
+    // 当hover可用，即设备为电脑端时才启用hover，防止在移动端hover与touchstart和touchend事件冲突
+    @media (hover: hover) {
+        &:hover {
+            transform: translate(-0.0667rem, -0.0667rem);
+            border-radius: .1333rem;
+            box-shadow: .0133rem .0133rem .0133rem .0133rem rgba(0, 0, 0, 0.2);
+        }
+    }
+
+}
+
+.menu {
+    position: fixed;
+    bottom: .5333rem;
+    right: .5333rem;
+    overflow: hidden;
+    width: .8rem;
+    height: .8rem;
+    max-height: .8rem;
+    background-color: #9e9bc6;
+    border-radius: .1rem;
+    box-shadow: 0 0 .03rem .03rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all ease-in-out 0.4s;
+
+    span {
+        position: absolute;
+        bottom: .23rem;
+        right: .0567rem;
+        font-size: .2667rem;
+        color: white;
+    }
+
+    @keyframes fade {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    // 目前，当menu不在为active状态时，无法达到理想的fade动画效果（可以实现，但是结构复杂、混乱）。
+    &.active {
+        height: auto;
+        max-height: 5rem;
+        animation: fade 1s;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            li {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: .8rem;
+                height: .8rem;
+                padding: .1rem;
+                border-bottom: .02rem solid white;
+                color: white;
+                font-size: .22rem;
+                transition: all ease-in-out 0.4s;
+
+                &.active {
+                    height: 1.5rem;
+                }
+            }
+
+            .top {
+                a {
+                    color: white;
+                }
+
+                &:active {
+                    background-color: white;
+                }
+            }
+
+            .close {
+                position: relative;
+                border-bottom: 0;
+
+                &:active {
+                    background-color: white;
+                }
+
+                div {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%) rotate(135deg);
+                    width: .4rem;
+                    height: .05rem;
+                    background-color: white;
+                    border-radius: .0667rem;
+
+                    &:first-child {
+                        transform: translateX(-50%) rotate(45deg);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.header {
+    display: flex;
+    margin: 0.5333rem .5333rem 0;
+    border-bottom: .02rem solid #0000002f;
+    // width: 100%;
+    //这里不能设置width:100%，因为.header有margin，盒子会被撑开从而产生意料之外的效果。
+
+    .profile {
+        display: flex;
+        flex: 2;
+        flex-direction: column;
+        padding-bottom: .2667rem;
+
+        img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+        }
+
+        h3 {
+            margin-top: .1333rem;
+            font-weight: 500;
+            font-size: .3733rem;
+        }
+
+        p {
+            color: #bababa;
+            font-size: .2933rem;
+        }
+
+        .social-menu {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: .1333rem;
+
+            a {
+                margin-right: .1333rem;
+                cursor: pointer;
+            }
+
+            .icon-github {
+                display: flex;
+                align-items: center;
+
+                &:before {
+                    content: "\eab0";
+                    font-family: 'icomoon';
+                    font-size: .4rem;
+                    color: #929eb2;
+                    align-content: center;
+                }
+            }
+
+            .link-shiningvideo_club {
+                display: flex;
+                color: #929eb2;
+                font-size: .18rem;
+                align-items: center;
+            }
+        }
+    }
+
+    .introduction {
+        display: flex;
+        flex: 5;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: .5333rem;
+        padding-left: .4rem;
+        padding-bottom: .2667rem;
+        border-left: .02rem solid #0000002f;
+
+        p {
+            font-size: .2667rem;
+            color: #747474;
+        }
+    }
+}
+
+.body {
+    margin: 0.5333rem 0.5333rem 0;
+
+    >div {
+        h2 {
+            display: flex inline;
+            align-items: center;
+            margin-bottom: .4rem;
+            color: #9e9bc6;
+            font-size: .4rem;
+            cursor: pointer;
+
+            &::before {
+                display: inline-block;
+                margin-right: .1rem;
+                content: "\ea42";
+                font-family: 'icomoon';
+                font-size: .4rem;
+                color: #9e9bc6;
+                transition: transform ease-in-out 0.4s;
+            }
+
+            &.active::before {
+                transform: rotate(90deg);
+            }
+        }
+
+        .box-container {
+            // 由于display无法直接设置动画，我们可以利用max-height值的改变来间接地为display设置过渡效果
+            // 注意！在这里如果我们通过max-height来设置动画，我们的动画会从100rem的高度逐渐缩小到0，其他max-height值同理
+            // 所以如果希望动画不会出现延迟，我们就需要使max-height尽量贴近真实的height
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height ease-in-out 0.4s;
+
+            &.active {
+                // 这里设置为auto是为了使box-container的高度自适应
+                // 如果想直接通过height设置动画也可以，但是heigth的起始和末尾都必须为一个确定的值，不能为auto
+                height: auto;
+                max-height: 30rem;
+                // 根据content-box的数量，这里需要手动调整。
+                // 我尝试使用js将此值动态设置为box-container的height，或者.content-box的height * portfolioData.length，
+                // 可能是因为这两个元素的高度都是自适应的，所以我获取失败了。（因为这两个height值都是基于max-height才能确定的）
+                // 也正因为先有css中的max-height，boxContainer才有offsetHeight，所以无法实现开局自动设置max-height，
+                // 但这可以修正第一次设定max-height值的偏差，让动画在第二次触发时更加精确；但由于js只能设置html内的style属性，导致这个效果难以实现，所以不做追求。
+                // 但是我尝试获取iframe的高度的时候，得到的结果为空，我不知道为什么。（因为js需要用client/offset来获取高度）
+            }
+        }
+    }
+
+    .typesetting-portfolio .box-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &.active {
+            max-height: 19rem;
+        }
+
+        h3 {
+            color: #9e9bc6;
+            font-size: .3rem;
+            padding-bottom: .0667rem;
+            margin-bottom: .3rem;
+            border-bottom: .0267rem solid;
+        }
+
+        .silder {
+            position: relative;
+            width: 50%;
+            height: 4rem;
+            transform-style: preserve-3d;
+            // 注意透视不要设置的太小，否则旋转效果会很怪
+            perspective: 1000rem;
+            animation: silder-rotate 30s linear infinite;
+
+            &:hover {
+                animation-play-state: paused;
+            }
+
+            @keyframes silder-rotate {
+                0% {
+                    transform: rotateY(0);
+                }
+
+                100% {
+                    transform: rotateY(360deg);
+                }
+            }
+
+            div {
+                position: absolute;
+                width: 100%;
+
+                img {
+                    width: 100%;
+                }
+
+                &:nth-child(1) {
+                    transform: rotateY(0) translateZ(4rem);
+                }
+
+                &:nth-child(2) {
+                    transform: rotateY(72deg) translateZ(4rem);
+                }
+
+                &:nth-child(3) {
+                    transform: rotateY(144deg) translateZ(4rem);
+                }
+
+                &:nth-child(4) {
+                    transform: rotateY(216deg) translateZ(4rem);
+                }
+
+                &:nth-child(5) {
+                    transform: rotateY(288deg) translateZ(4rem);
+                }
+            }
+
+        }
+
+        .pdf {
+            overflow: visible;
+            width: 100%;
+            height: 12.5rem;
+            margin-bottom: .4rem;
+            p {
+                color: #bababa;
+                font-size: .2933rem;
+                a {
+                    color: #9e9bc6;
+                }
+            }
+        }
+    }
+
+    .video-portfolio .box-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .content-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: .4rem;
+            background-color: white;
+            border-radius: .1333rem;
+            box-shadow: 0 0 .03rem .03rem rgba(0, 0, 0, 0.1);
+
+            h3 {
+                color: #9e9bc6;
+                font-size: .3rem;
+                padding: .0667rem .1333rem;
+            }
+
+            iframe {
+                width: 8rem;
+                height: (9rem / 16 * 8);
+                border: 0;
+            }
+
+            .function-bar {
+                display: flex;
+                justify-content: space-around;
+                width: 8rem;
+                padding: .1333rem .1333rem;
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 1.5rem;
+                    height: .5rem;
+                    background-color: #9e9bc6;
+                    border: .0267rem solid #9e9bc6;
+                    border-radius: .1333rem;
+                    box-shadow: 0 0 .02rem .02rem rgba(0, 0, 0, 0.2);
+                    color: white;
+                    font-size: .2rem;
+                }
+            }
+        }
+    }
+
+    .document .box-container {
+        &.active {
+            max-height: 1rem;
+        }
+
+        p {
+            margin-bottom: .4rem;
+            color: #bababa;
+            font-size: .2933rem;
+
+            a {
+                color: #9e9bc6;
+            }
+        }
+    }
+}

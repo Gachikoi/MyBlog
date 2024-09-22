@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "marked": "^14.1.2"
+  }
+}
