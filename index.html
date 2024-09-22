@@ -17,18 +17,36 @@
     <title>ガチ恋</title>
     <!-- link css -->
     <style>
-        .test {
+        div {
+            width: 100px;
+            overflow: hidden;
+            margin: 100px auto;
+        }
+
+        div button {
+            float: left;
             width: 100px;
             height: 100px;
-            background-color: pink;
+            margin-bottom: 50px;
         }
     </style>
     <!-- link js for jump to moblie website -->
-    <script type="text/javascript" src="src/js/jump-to-m.js"></script>
+    <!-- <script type="text/javascript" src="src/js/jump-to-m.js"></script> -->
 </head>
 
 <body>
-    <div class="test">这是pc端页面</div>
+    <div>
+        <button class="shiningvideo">跳转到我自制的晒你视频组网站（仅适配pc端）</button>
+        <button class="gach1koiblog">跳转到我的个人博客（仅适配移动端）</button>
+    </div>
+    <script>
+        document.querySelector('.shiningvideo').addEventListener('click', () => {
+            location.href = 'http://gach1koi.3vcn.work/'
+        })
+        document.querySelector('.gach1koiblog').addEventListener('click', () => {
+            location.href = 'src/html/m-index.html'
+        })
+    </script>
 </body>
 
 </html>
