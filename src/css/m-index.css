@@ -355,3 +355,13 @@ body {
 .body .document .box-container p a {
   color: #9e9bc6;
 }
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.footer a {
+  color: #9e9bc6;
+  font-size: 0.2667rem;
+}
