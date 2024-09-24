@@ -40,8 +40,8 @@ body {
   min-width: 320px;
   max-width: 750px;
   width: 10rem;
-  background-color: #f5f5fa;
   margin: 0 auto;
+  background-color: #f5f5fa;
 }
 .function-button-2d {
   padding: 0.0667rem;
@@ -356,8 +356,6 @@ body {
   color: #9e9bc6;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   text-align: center;
 }
